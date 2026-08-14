@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บไซต์แนะนำการท่องเที่ยวประเทศบราซิล</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #009c3b 0%, #2c3e50 50%, #f39c12 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            display: block;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav ul li a:hover::before {
+            left: 0;
+        }
+
+        nav ul li a:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23009c3b" width="1200" height="200"/><rect fill="%23ffcc00" y="200" width="1200" height="200"/><rect fill="%2302c702" y="400" width="1200" height="200"/><circle cx="600" cy="300" r="100" fill="%23002776" opacity="0.7"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Styling */
+        section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #f39c12;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        section h3 {
+            color: #34495e;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        section h4 {
+            color: #7f8c8d;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Attractions Grid */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .attraction-card {
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .attraction-card img {
+            width: 100%;
+            height: 200px;
+            background-color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .attraction-card-content {
+            padding: 1.5rem;
+        }
+
+        .attraction-card h3 {
+            margin-top: 0;
+            color: #f39c12;
+        }
+
+        .attraction-card ul {
+            margin-left: 1.5rem;
+            color: #555;
+        }
+
+        .attraction-card li {
+            margin: 0.5rem 0;
+        }
+
+        /* Food & Culture Section */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .food-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .food-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .food-item-image {
+            width: 100%;
+            height: 200px;
+            background-color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .food-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .food-item-content {
+            padding: 1.5rem;
+        }
+
+        .food-item h4 {
+            color: #f39c12;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .food-item p {
+            color: #555;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .food-item h4 {
+            color: #f39c12;
+            margin-top: 0;
+        }
+
+        .culture-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .culture-list li {
+            padding: 0.8rem;
+            background-color: #f8f9fa;
+            margin: 0.5rem 0;
+            border-left: 4px solid #27ae60;
+            padding-left: 1rem;
+        }
+
+        .culture-list li:before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        /* Culture Cards Grid */
+        .culture-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .culture-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .culture-card-image {
+            width: 100%;
+            height: 200px;
+            background-color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 3rem;            overflow: hidden;
+        }
+
+        .food-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;        }
+
+        .culture-card-content {
+            padding: 1.5rem;
+        }
+
+        .culture-card h4 {
+            color: #f39c12;
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+
+        .culture-card p {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .culture-card-details {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        /* Festival Cards Grid */
+        .festival-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .festival-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #e74c3c;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .festival-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .festival-card-image {
+            width: 100%;
+            height: 220px;
+            background-color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 3rem;
+        }
+
+        .festival-card-content {
+            padding: 1.5rem;
+        }
+
+        .festival-card h4 {
+            color: #e74c3c;
+            margin-top: 0;
+            font-size: 1.15rem;
+            line-height: 1.4;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .festival-card-details {
+            list-style: none;
+            margin: 1rem 0 0 0;
+            padding: 0;
+        }
+
+        .festival-card-details li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #ecf0f1;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .festival-card-details li:last-child {
+            border-bottom: none;
+        }
+
+        .postcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .postcard {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .postcard:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.14);
+        }
+
+        .postcard img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .postcard-content {
+            padding: 1rem 1rem 1.5rem;
+        }
+
+        .postcard-content h4 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+
+        .postcard-content p {
+            margin: 0;
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .festival-card-details li:before {
+            content: "🎉 ";
+            margin-right: 0.5rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: stretch;
+            grid-auto-rows: 1fr;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #bdc3c7;
+            min-height: 100%;
+            display: flex;
+        }
+
+        .about-image-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .info-form {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 4px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            nav ul li {
+                margin: 0.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Divider */
+        .divider {
+            border: none;
+            border-top: 2px dashed #ecf0f1;
+            margin: 2rem 0;
+        }
+
+        /* Image Styling */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .header-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .food-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .culture-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .festival-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .about-image-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">🏠 หน้าแรก</a></li>
+            <li><a href="#attractions">🗺️ สถานที่ท่องเที่ยว</a></li>
+            <li><a href="#food-culture">🍽️ อาหารและวัฒนธรรม</a></li>
+            <li><a href="#about">👤 เกี่ยวกับผู้จัดทำ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header id="home">
+        <h1>ยินดีต้อนรับสู่บราซิล</h1>
+        <p>ประเทศที่เต็มไปด้วยธรรมชาติ วัฒนธรรม และความสนุกสนาน</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home-content">
+            <h2>Welcome to Brazil</h2>
+            <p>บราซิลเป็นประเทศที่ใหญ่ที่สุดในทวีปอเมริกาใต้ และเป็นประเทศที่มีความหลากหลายทางธรรมชาติ วัฒนธรรม และประเพณีที่โดดเด่น เป็นที่รู้จักจากป่าอเมซอนอันกว้างใหญ่ ชายหาดที่สวยงาม เทศกาลคาร์นิวัลที่มีชื่อเสียงระดับโลก และกีฬาฟุตบอลที่เป็นที่รักของชาวบราซิล</p>
+            <p style="margin-top: 1rem;">นักท่องเที่ยวสามารถสัมผัสทั้งความงดงามของธรรมชาติ เมืองใหญ่ที่ทันสมัย อาหารพื้นเมืองที่มีเอกลักษณ์ และวิถีชีวิตที่เต็มไปด้วยสีสัน ทำให้บราซิลเป็นหนึ่งในจุดหมายปลายทางยอดนิยมของนักท่องเที่ยวจากทั่วโลก</p>
+            <div style="text-align: center; margin-top: 2rem;">
+                <img src="pp.jpg" alt="ประเทศบราซิล" class="header-image">
+                <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">ประเทศบราซิล</p>
+            </div>
+        </section>
+
+        <!-- Attractions Section -->
+        <section id="attractions">
+            <h2>สถานที่ท่องเที่ยว (Attractions)</h2>
+            
+            <div class="attractions-grid">
+                <div class="attraction-card">
+                    <div class="attraction-card-content">
+                        <h3>พระเยซูคริสต์แห่งรีดีเมอร์</h3>
+                        <p><strong>Christ the Redeemer</strong></p>
+                        <img src="q1.webp" alt="พระเยซูคริสต์แห่งรีดีเมอร์" class="card-image" style="margin: 1rem 0; border-radius: 4px;">
+                        <p>พระเยซูคริสต์แห่งรีดีเมอร์เป็นสัญลักษณ์สำคัญของประเทศบราซิล ตั้งอยู่บนยอดเขาคอร์โควาโดในเมืองริโอเดจาเนโร</p>
+                        <ul>
+                            <li>มีความสูงประมาณ 38 เมตร</li>
+                            <li>เป็นหนึ่งใน 7 สิ่งมหัศจรรย์ของโลกยุคใหม่</li>
+                            <li>มองเห็นทิวทัศน์ 360 องศา</li>
+                            <li>สถานที่ท่องเที่ยวชื่อดังระดับโลก</li>
+                            <li>นักท่องเที่ยวหลายล้านคนมาเยี่ยมชมทุกปี</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="attraction-card">
+                    <div class="attraction-card-content">
+                        <h3>ป่าอเมซอน</h3>
+                        <p><strong>Amazon Rainforest</strong></p>
+                        <img src="q2.jpg" alt="ป่าอเมซอน" class="card-image" style="margin: 1rem 0; border-radius: 4px;">
+
+                        <p>ป่าอเมซอนเป็นป่าฝนเขตร้อนที่ใหญ่ที่สุดในโลก ครอบคลุมพื้นที่หลายประเทศในอเมริกาใต้</p>
+                        <ul>
+                            <li>แหล่งผลิตออกซิเจนสำคัญของโลก</li>
+                            <li>มีสัตว์และพืชนานาชนิด</li>
+                            <li>เหมาะสำหรับการท่องเที่ยวเชิงธรรมชาติ</li>
+                            <li>สามารถล่องเรือชมแม่น้ำอเมซอน</li>
+                            <li>แหล่งศึกษาระบบนิเวศสำคัญ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="attraction-card">
+                    <div class="attraction-card-content">
+                        <h3>หาดโคปาคาบานา</h3>
+                        <p><strong>Copacabana Beach</strong></p>
+                        <img src="q3.jpg" alt="หาดโคปาคาบานา" class="card-image" style="margin: 1rem 0; border-radius: 4px;">
+
+                        <p>ชายหาดโคปาคาบานาเป็นชายหาดที่มีชื่อเสียงที่สุดแห่งหนึ่งของโลก ตั้งอยู่ในเมืองริโอเดจาเนโร</p>
+                        <ul>
+                            <li>ยาวกว่า 4 กิโลเมตร</li>
+                            <li>น้ำทะเลใสและบรรยากาศสวยงาม</li>
+                            <li>สถานที่พักผ่อนยอดนิยม</li>
+                            <li>มีกิจกรรมกีฬาทางน้ำหลากหลาย</li>
+                            <li>จัดงานเฉลิมฉลองปีใหม่ยิ่งใหญ่</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- Food & Culture Section -->
+        <section id="food-culture">
+            <h2>อาหารและวัฒนธรรม (Food & Culture)</h2>
+
+            <h3>อาหารขึ้นชื่อของบราซิล</h3>
+            <div class="food-grid">
+                <div class="food-item">
+                    <div class="food-item-image">
+                        <img src="e1.jpg" alt="เฟโจอาดา" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="food-item-content">
+                        <h4>เฟโจอาดา</h4>
+                        <p><strong>Feijoada</strong></p>
+                        <p style="margin-top: 0.5rem;">อาหารประจำชาติของบราซิล ทำจากถั่วดำต้มกับเนื้อหมูและเนื้อวัว เสิร์ฟพร้อมข้าว ผัก และส้ม</p>
+                    </div>
+                </div>
+                <div class="food-item">
+                    <div class="food-item-image">
+                        <img src="e2.jpg" alt="ชูรัสโก" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="food-item-content">
+                        <h4>ชูรัสโก</h4>
+                        <p><strong>Churrasco</strong></p>
+                        <p style="margin-top: 0.5rem;">เนื้อย่างสไตล์บราซิลที่นำเนื้อคุณภาพดีมาย่างบนเตาถ่าน มีรสชาติหอมและนุ่ม</p>
+                    </div>
+                </div>
+                <div class="food-item">
+                    <div class="food-item-image">
+                        <img src="e3.jpg" alt="ปังเดเกโจ" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="food-item-content">
+                        <h4>ปังเดเกโจ</h4>
+                        <p><strong>Pão de Queijo</strong></p>
+                        <p style="margin-top: 0.5rem;">ขนมปังชีสขนาดเล็ก เนื้อเหนียวนุ่ม เป็นอาหารว่างยอดนิยมของชาวบราซิล</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="divider">
+
+            <h3>วัฒนธรรมที่น่าสนใจ</h3>
+            <div class="culture-cards-grid">
+                <div class="culture-card">
+                    <div class="culture-card-image">
+                        <img src="w1.jpg" alt="ความเป็นมิตรและร่าเริง" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="culture-card-content">
+                        <h4>ความเป็นมิตรและร่าเริง</h4>
+                        <p>ชาวบราซิลมีชื่อเสียงด้านความเป็นมิตรที่อบอุ่นและจิตใจที่ร่าเริง</p>
+                        <div class="culture-card-details">
+                            <strong>รายละเอียด:</strong><br>
+                            ชาวบราซิลเป็นที่รู้จักในความใจดีและการต้อนรับแขกอย่างอบอุ่น พวกเขามักจะยิ้มแย้มและสบายใจกับทุกคน ทำให้การท่องเที่ยวในบราซิลเป็นประสบการณ์ที่ประทับใจและอบอุ่นใจเป็นอย่างมาก
+                        </div>
+                    </div>
+                </div>
+
+                <div class="culture-card">
+                    <div class="culture-card-image">
+                        <img src="w2.jpg" alt="ฟุตบอล" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="culture-card-content">
+                        <h4>ฟุตบอล - ความรักของชาติ</h4>
+                        <p>ฟุตบอลเป็นกีฬายอดนิยมและถือเป็นส่วนหนึ่งของวัฒนธรรมชาติ</p>
+                        <div class="culture-card-details">
+                            <strong>รายละเอียด:</strong><br>
+                            บราซิลเป็นประเทศกีฬาฟุตบอลที่ประสบความสำเร็จมากที่สุดในโลก ชาวบราซิลหลั่งน้ำตาแห่งชัยชนะเมื่อทีมบราซิลชนะการแข่งขัน ทุกเมืองมีสนามฟุตบอล และทุกที่สามารถเห็นเด็กเล่นฟุตบอล
+                        </div>
+                    </div>
+                </div>
+
+                <div class="culture-card">
+                    <div class="culture-card-image">
+                        <img src="w3.webp" alt="ดนตรีแซมบ้าและการเต้น" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="culture-card-content">
+                        <h4>ดนตรีแซมบ้า และการเต้น</h4>
+                        <p>ดนตรีแซมบ้าเป็นเอกลักษณ์ที่โดดเด่นและการเต้นรำเป็นกิจกรรมสำคัญ</p>
+                        <div class="culture-card-details">
+                            <strong>รายละเอียด:</strong><br>
+                            ดนตรีแซมบ้าและการเต้นรำเป็นส่วนสำคัญของชีวิตชาวบราซิล เมื่อได้ยินเสียงกลองแซมบ้า ชาวบราซิลจะไม่สามารถนั่งนิ่งอยู่ได้ การเต้นรำเป็นวิถีชีวิตและการแสดงออกถึงจิตใจอย่างอิสระ
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <h3>เทศกาลสำคัญ</h3>
+            <div class="festival-grid">
+                <div class="festival-card">
+                    <div class="festival-card-image">
+                        <img src="z1.JPG" alt="เทศกาลคาร์นิวัล" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="festival-card-content">
+                        <h4>เทศกาลคาร์นิวัลแห่งริโอ</h4>
+                        <p><strong>Rio Carnival</strong></p>
+                        <ul class="festival-card-details">
+                            <li>เป็นเทศกาลที่ยิ่งใหญ่ที่สุดในโลก</li>
+                            <li>จัดขึ้นทุกปีในเมืองริโอเดจาเนโร</li>
+                            <li>มีขบวนพาเหรด การเต้นแซมบ้า อลังการ</li>
+                            <li>นักท่องเที่ยวหลายล้านคนเข้าร่วม</li>
+                            <li>สะท้อนวัฒนธรรมของชาวบราซิล</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="festival-card">
+                    <div class="festival-card-image">
+                        <img src="z2.png" alt="เทศกาลปีใหม่" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="festival-card-content">
+                        <h4>เทศกาลปีใหม่และวันคริสต์มาส</h4>
+                        <p><strong>New Year & Christmas Festival</strong></p>
+                        <ul class="festival-card-details">
+                            <li>ชาวบราซิลฉลองปีใหม่อย่างคึกคัก</li>
+                            <li>มีการแสดงดอกไม้ไฟยิ่งใหญ่ทั่วเมือง</li>
+                            <li>ชายหาดคึกคักไปด้วยคนเฉลิมฉลอง</li>
+                            <li>มีเพลงดนตรีและการเต้นรำตลอดคืน</li>
+                            <li>เป็นช่วงเวลาของความสนุกสนานและการรวมตัวครอบครัว</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="festival-card">
+                    <div class="festival-card-image">
+                        <img src="z3.JPG" alt="เทศกาล Iemanjá" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="festival-card-content">
+                        <h4>เทศกาลรื่นเริงบ้านของแอลเฟรด</h4>
+                        <p><strong>Festa de Iemanjá (Goddess Celebration)</strong></p>
+                        <ul class="festival-card-details">
+                            <li>วันเฉลิมฉลองเทพีแม่ทะเล Iemanjá</li>
+                            <li>มีการบูชาและขออนุญาติจากเทพีแม่ทะเล</li>
+                            <li>ชาวบราซิลนำของเซ่นเท่ไปที่ชายหาด</li>
+                            <li>เป็นเทศกาลที่สำคัญในศาสนาแห่งประเพณี</li>
+                            <li>ผสมผสานระหว่างวัฒนธรรมยุโรป เอฟริกา และพื้นเมือง</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>ผู้จัดทำ (About Me)</h2>
+            
+            <div class="about-content">
+                <div class="info-form" style="background-color: #f8f9fa; padding: 2rem; border-radius: 8px; border-left: 4px solid #27ae60;">
+                    <h3 style="margin-top: 0; color: #2c3e50; border-bottom: 2px solid #27ae60; padding-bottom: 1rem;">ข้อมูลผู้จัดทำ</h3>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.3rem;">ชื่อ-นามสกุล :</label>
+                        <p style="margin: 0; color: #333; font-size: 1rem;">นาย ธรีเชษฐ์ เดชพรม</p>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.3rem;">ระดับชั้น :</label>
+                        <p style="margin: 0; color: #333; font-size: 1rem;">2/10</p>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.3rem;">สาขาวิชา :</label>
+                        <p style="margin: 0; color: #333; font-size: 1rem;">เทคโนโลยีสารสนเทศ</p>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.3rem;">วิทยาลัย :</label>
+                        <p style="margin: 0; color: #333; font-size: 1rem;">วิทยาลัยการจัดการเพชรเกษม</p>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.3rem;">วิชา :</label>
+                        <p style="margin: 0; color: #333; font-size: 1rem;">การสร้างเว็บไซต์</p>
+                    </div>
+                    <div style="margin-bottom: 0;">
+                        <label style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.3rem;">E-mail :</label>
+                        <p style="margin: 0; color: #0066cc; font-size: 1rem;"><a href="mailto:std681110142@petkasem.ac.th" style="color: #0066cc; text-decoration: none;">std681110142@petkasem.ac.th</a></p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="p1.jpg" alt="ผู้จัดทำ" class="about-image-photo">
+
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="text-align: center; color: #2c3e50;">PostCard</h3>
+            <div class="postcard-grid">
+                <div class="postcard">
+                    <img src="o1.png" alt="Postcard 1">
+                    <div class="postcard-content">
+                        <h4>Brazil</h4>
+                    </div>
+                </div>
+                <div class="postcard">
+                    <img src="o2.jpg" alt="Postcard 2">
+                    <div class="postcard-content">
+                        <h4>China</h4>
+                    </div>
+                </div>
+                <div class="postcard">
+                    <img src="o3.jpg" alt="Postcard 3">
+                    <div class="postcard-content">
+                        <h4>India</h4>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <section class="music-section" style="text-align:center; margin:2rem 0;">
+                <h3 style="color: #2c3e50; margin-bottom: 0.5rem;">เพลง</h3>
+                    <div class="spotify-embed" style="display:flex; justify-content:center;">
+                    <iframe src="https://open.spotify.com/embed/track/5Mq1RtsUVyFi41CrxVhmmO?si=55e768d2032a4aa1" width="560" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" loading="lazy"></iframe>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <h3 style="text-align: center; color: #27ae60;">ขอบคุณที่เข้าชมเว็บไซต์</h3>
+            <p style="text-align: center; font-size: 1.1rem; line-height: 1.8;">
+                หวังว่าเว็บไซต์นี้จะช่วยให้ทุกคนได้รู้จักประเทศบราซิลมากขึ้น และเป็นแรงบันดาลใจในการเดินทางท่องเที่ยวประเทศที่เต็มไปด้วยธรรมชาติ วัฒนธรรม และความสวยงามแห่งนี้
+            </p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 เว็บไซต์แนะนำการท่องเที่ยวประเทศบราซิล</p>
+        <p>สร้างด้วยความรัก และเต็มไปด้วยความสนใจในการท่องเที่ยว</p>
+    </footer>
+</body>
+</html>
